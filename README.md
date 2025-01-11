@@ -8,10 +8,10 @@
 
 <p align="center">
 
-<img src="https://img.shields.io/github/v/release/rneacsu5/zpack?style=flat">
-<img src="https://img.shields.io/github/stars/rneacsu5/zpack?style=flat">
-<img src="https://img.shields.io/github/contributors/rneacsu5/zpack?style=flat">
-<img src="https://img.shields.io/github/license/rneacsu5/zpack?style=flat">
+<img src="https://img.shields.io/github/v/release/rneacsu/zpack?style=flat">
+<img src="https://img.shields.io/github/stars/rneacsu/zpack?style=flat">
+<img src="https://img.shields.io/github/contributors/rneacsu/zpack?style=flat">
+<img src="https://img.shields.io/github/license/rneacsu/zpack?style=flat">
 
 </p>
 
@@ -62,7 +62,7 @@ Add the following lines to `~/.zshrc`:
 
 ```shell
 # Init zpack
-[[ -d "${ZDOTDIR:-$HOME}/.zpack" ]] || git clone https://github.com/rneacsu5/zpack.git "${ZDOTDIR:-$HOME}/.zpack"
+[[ -d "${ZDOTDIR:-$HOME}/.zpack" ]] || git clone https://github.com/rneacsu/zpack.git "${ZDOTDIR:-$HOME}/.zpack"
 source "${ZDOTDIR:-$HOME}/.zpack/zpack.zsh"
 ```
 
@@ -121,7 +121,7 @@ At the end make sure you apply the configuration using the following:
 zpack apply
 ```
 
-You can also check out my [dotfiles](https://github.com/rneacsu5/dotfiles) for a working configuration.
+You can also check out my [dotfiles](https://github.com/rneacsu/dotfiles) for a working configuration.
 
 In order to avoid a warning about completions already initialised, please make sure you have the following in `~/.zshenv`:
 
