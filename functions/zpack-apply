@@ -15,10 +15,6 @@ function zpack-apply() {
     ZPACK[stats_cache_compile_end]=$EPOCHREALTIME
 
     __zpack_apply
-
-    ZPACK[stats_compinit_compile_start]=$EPOCHREALTIME
-    zpack-compile ${ZPACK[compdump_path]}
-    ZPACK[stats_compinit_compile_end]=$EPOCHREALTIME
 }
 
 zpack-apply $@

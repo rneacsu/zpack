@@ -20,7 +20,7 @@ function __zpack_completion_init {
             __ZPACK_COMPDEFS+=("${(j: :)${(q)@}}")
         }
 
-        # This only defined the 'compgen' and 'complete' functions which in turn
+        # This only defines the 'compgen' and 'complete' functions which in turn
         # use 'compdef', so no need to mock them.
         autoload -Uz bashcompinit && bashcompinit
     fi
@@ -78,6 +78,15 @@ function __zpack_completion_apply() {
                 __zpack_err "Could not dump completions."
                 return 1
             fi
+
+            # Finally compile dump for even faster loading
+            autoload -Uz zrecompile
+            ZPACK[stats_compinit_compile_start]=$EPOCHREALTIME
+            if ! zrecompile -q -p ${ZPACK[compdump_path]}; then
+                __zpack_err "Could not compile completions dump."
+                return 1
+            fi
+            ZPACK[stats_compinit_compile_end]=$EPOCHREALTIME
         fi
         ZPACK[stats_compinit_end]=$EPOCHREALTIME
 
