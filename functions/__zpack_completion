@@ -11,6 +11,8 @@ function __zpack_completion_init {
             __zpack_warn "         Disable this warning by fixing the issue or by setting ZPACK_IGNORE_COMPINIT=1"
         fi
     else
+        typeset -g -A _comps
+
         # Mock completion
         typeset -ga __ZPACK_COMPDEFS=()
         typeset -g __ZPACK_COMPLETION=1

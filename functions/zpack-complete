@@ -1,0 +1,34 @@
+#!/usr/bin/env zsh
+
+function zpack-complete() {
+  local cmd
+  zparseopts -D -E -generate::=cmd g::=cmd \
+      || return 1
+
+  if [[ $# == 0 ]]; then
+        __zpack_err "'complete' requires at least one parameter:"
+        __zpack_err "    zpack complete <program>"
+        __zpack_err "                   [-g [<cmd>]] [--generate [<cmd>]]"
+        return 1
+  fi
+
+  local program=$1
+
+  [[ $+commands[$program] == 1 ]] || return 0
+
+  if [[ -n $cmd ]]; then
+    cmd=$cmd[2]
+    if [[ -z $cmd ]]; then
+      cmd="${program} completion zsh"
+    fi
+  fi
+
+  __zpack_cache eval "autoload -Uz _${program}"
+  __zpack_cache eval "_comps[${program}]=_${program}"
+
+  if [[ -n $cmd ]]; then
+    __zpack_cache eval "$cmd 2> /dev/null >| ${ZPACK[completions_dir]}/_${program} &|"
+  fi
+}
+
+zpack-complete $@

@@ -118,17 +118,12 @@ function __zpack_release_install() {
         return 1
     fi
 
-    # Add completions
-    if [[ -n $completion ]]; then
-        __zpack_cache fpath $dir
-    fi
-
     popd -q
 }
 
 function zpack-release() {
-    local completion pattern list repo dir version assets filter name id
-    zparseopts -D -E -completion:=completion \
+    local complete pattern list repo dir version assets filter name id
+    zparseopts -D -E -complete::=complete \
         -pattern:=pattern p:=pattern \
         -filter:=filter f:=filter \
         -name:=name n:=name \
@@ -138,7 +133,7 @@ function zpack-release() {
     if [[ $# == 0 ]]; then
         __zpack_err "'release' requires at least one parameter:"
         __zpack_err "    zpack release <repo>[@version]"
-        __zpack_err "                         [--completion <cmd>]"
+        __zpack_err "                         [--complete [<cmd>]]"
         __zpack_err "                         [-p <pattern>] [--pattern <pattern>]"
         __zpack_err "                         [-f <filter>] [--filter <filter>]"
         __zpack_err "                         [-n <name>] [--name <name>]"
@@ -240,22 +235,13 @@ function zpack-release() {
             mv ${asset:t} $name
         fi
         popd -q
+    fi
 
-        __zpack_release_install
+    __zpack_release_install
 
-        # Generate completions
-        pushd -q $dir
-        if [[ -n $completion ]]; then
-            __zpack_out "Generating completions"
-            eval "$completion[2]"
-            if [[ $? -ne 0 ]]; then
-                __zpack_out "Failed to generate completions."
-                return 1
-            fi
-        fi
-        popd -q
-    else
-        __zpack_release_install
+    # Add completions
+    if [[ -n $complete ]]; then
+        zpack-complete $name -g $complete[2]
     fi
 }
 

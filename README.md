@@ -30,6 +30,7 @@ A simple Zsh manager for all your needs.
   * [`zpack bin`](#zpack-bin)
   * [`zpack omz`](#zpack-omz)
   * [`zpack bundle`](#zpack-bundle)
+  * [`zpack complete`](#zpack-complete)
   * [`zpack apply`](#zpack-apply)
   * [`zpack update`](#zpack-update)
   * [`zpack reset`](#zpack-reset)
@@ -89,7 +90,7 @@ zpack release junegunn/fzf
 zpack snippet https://github.com/junegunn/fzf/raw/master/shell/key-bindings.zsh
 
 # Install binary and also generate completions
-zpack release dandavison/delta --completion 'delta --generate-completion zsh > _delta'
+zpack release dandavison/delta --complete 'delta --generate-completion zsh'
 
 # Add script from url as binary an make it available in path
 zpack snippet --bin https://github.com/kvaps/kubectl-node-shell/raw/master/kubectl-node_shell
@@ -173,7 +174,7 @@ The following flags can be used:
 
 Downloads a binary from GitHub Releases and adds it to `PATH`. It takes one argument which is the repository in the format `<author>/<repo>` or `<author>/<repo>@<version>`. The following flags can be used:
 
-* `--completion` - generate completions for the binary. The argument is the command to run to generate completions. You can use the binary itself to generate completions. The script should generate the `_command` file in the current directory.
+* `--complete` - generate completions for the binary. The argument is the command to run to generate completions. You can use the binary itself to generate completions. If no command is given, then `<binary> completion zsh` is used.
 * `-p, --pattern` - assets are automatically filtered by the current OS and platform and the first one is downloaded. Use this flag to specify a pattern to further filter the assets.
 * `-f, --filter` - when downloading an archive with multiple files the command tries to automatically find the correct binary. Use this flag to specify a filter to find the correct file to use.
 * `-n, --name` - specify the name of the binary to use. By default, the name is the same as the repository name, but it can be different in some cases (e.g. `flux` for `fluxcd/flux2`). Use this flag to specify the name of the final binary.
@@ -209,6 +210,23 @@ Loads a predefined bundle of one or more plugins, along with their configuration
 * `fzf` - installs [`junegunn/fzf`](https://github.com/junegunn/fzf) and configures `Ctrl+R`, `Ctrl+T` and `Alt+C` key bindings with files and directories previews. Set the `--tab` flag to also install the [`Aloxaf/fzf-tab`](https://github.com/Aloxaf/fzf-tab) plugin.
 
 To see all the available bundles, run `zpack bundle`.
+
+### `zpack complete`
+
+Registers completions for the program/command given as argument. This is usefull when generating completions in the background which don't finish by the time the completion system is initialised. This is the case for many Oh My Zsh plugins which generate completions in the background. You can also pass the following flags:
+
+* `-g, --generate` - generate completions for the program/command. The flag takes as argument the command to run to generate completions. If no command is given, then `<program> completion zsh` is used.
+
+Examples:
+
+```shell
+# Kubectl completions take a long time to generate using the Oh My Zsh plugin, so we register them manually
+zpack complete kubectl
+# Helm completions are generated and registered using the `helm completion zsh` command
+zpack complete helm -g
+# Use custom command to generate completions for delta
+zpack complete delta -g 'delta --generate-completion zsh'
+```
 
 ### `zpack apply`
 

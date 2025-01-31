@@ -75,7 +75,7 @@ function __zpack_init() {
 
         # Setup directories and files
         local dir
-        for dir in ${ZPACK[bin_dir]} ${ZPACK[cache_dir]}; do
+        for dir in ${ZPACK[bin_dir]} ${ZPACK[cache_dir]} ${ZPACK[completions_dir]}; do
             [[ -d $dir ]] || mkdir -p $dir
         done
         rm -f ${ZPACK[compdump_path]}
@@ -83,6 +83,7 @@ function __zpack_init() {
         __zpack_cache txt "#!/usr/bin/env zsh"
         __zpack_cache stats_time cache_start
         __zpack_cache path ${ZPACK[bin_dir]}
+        __zpack_cache fpath ${ZPACK[completions_dir]}
 
         # Zsh Plugin Standard
         typeset -g PMSPEC=0fbis
@@ -93,21 +94,22 @@ function __zpack_init() {
     # Define commands and their description
     typeset -gA __ZPACK_CMDS
     __ZPACK_CMDS=(
-        "load"    "clone and load plugin"
-        "omz"     "load ohmyzsh plugins or libraries"
-        "bin"     "clone and add files to PATH"
-        "release" "download and add binary release"
-        "snippet" "download and load snippet from url"
-        "bundle"  "load predefined bundles"
-        "apply"   "apply setup to current shell"
-        "update"  "update all repositories, reset and restart shell"
-        "compile" "compile files from the given path"
-        "clone"   "clone plugin from repository"
-        "list"    "print plugins, releases, snippets, bundles and binaries"
-        "reset"   "delete cache and bin dirs and restart shell"
-        "prune"   "delete everything and restart shell"
-        "stats"   "print statistics about zpack"
-        "help"    "print usage information"
+        "load"     "clone and load plugin"
+        "omz"      "load ohmyzsh plugins or libraries"
+        "bin"      "clone and add files to PATH"
+        "release"  "download and add binary release"
+        "snippet"  "download and load snippet from url"
+        "bundle"   "load predefined bundles"
+        "complete" "register completions for programs"
+        "apply"    "apply setup to current shell"
+        "update"   "update all repositories, reset and restart shell"
+        "compile"  "compile files from the given path"
+        "clone"    "clone plugin from repository"
+        "list"     "print plugins, releases, snippets, bundles and binaries"
+        "reset"    "delete cache and bin dirs and restart shell"
+        "prune"    "delete everything and restart shell"
+        "stats"    "print statistics about zpack"
+        "help"     "print usage information"
     )
 
     # Init completion

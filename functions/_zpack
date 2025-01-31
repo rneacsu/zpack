@@ -13,7 +13,7 @@ function _zpack_compile() {
 
 function _zpack_release() {
 	_arguments \
-		'(-l --list)--completion[command to generate completions]:command' \
+		'(-l --list)--complete[generate completions]::command' \
 		'(-p --pattern -l --list)'{-p,--pattern}'[glob pattern to match asset]:pattern' \
 		'(-f --filter -l --list)'{-f,--filter}'[glob pattern to filter binary file]:filter' \
 		'(-n --name -l --list)'{-n,--name}'[binary name]:name' \
@@ -100,6 +100,12 @@ function _zpack_clone() {
     _arguments \
         '1:repository' \
         '2:branch or tag'
+}
+
+function _zpack_complete() {
+    _arguments \
+        '1:program:_command_names' \
+        '(-g --generate)'{-g,--generate}'[generate completions]::command'
 }
 
 function _zpack() {

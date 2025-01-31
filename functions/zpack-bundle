@@ -106,11 +106,11 @@ function __zpack_bundle_powerlevel10k() {
 }
 
 function __zpack_bundle_chezmoi() {
-    zpack release twpayne/chezmoi --completion 'chezmoi completion zsh > _chezmoi' $@
+    zpack release twpayne/chezmoi --complete $@
 }
 
 function __zpack_bundle_delta() {
-    zpack release dandavison/delta --completion 'delta --generate-completion zsh > _delta' $@
+    zpack release dandavison/delta --complete 'delta --generate-completion zsh' $@
 }
 
 function __zpack_bundle_zoxide() {
@@ -130,7 +130,7 @@ function __zpack_bundle_lazygit() {
 }
 
 function __zpack_bundle_k9s() {
-    zpack release derailed/k9s --completion 'k9s completion zsh > _k9s' $@
+    zpack release derailed/k9s --complete $@
 }
 
 {

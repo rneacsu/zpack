@@ -8,6 +8,7 @@ ZPACK[functions_dir]="${ZPACK[dir]}/functions"
 ZPACK[bin_dir]="${ZPACK[dir]}/bin"
 ZPACK[cache_dir]="${ZPACK[dir]}/cache"
 ZPACK[cache_file]="${ZPACK[cache_dir]}/zpack"
+ZPACK[completions_dir]="${ZPACK[cache_dir]}/completions"
 ZPACK[compdump_path]="${ZPACK[cache_dir]}/zcompdump_$ZSH_VERSION"
 
 # Init ZPack
