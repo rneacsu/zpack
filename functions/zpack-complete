@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 function zpack-complete() {
-  local cmd
+  local cmd completions_path
   zparseopts -D -E -generate::=cmd g::=cmd \
       || return 1
 
@@ -27,7 +27,8 @@ function zpack-complete() {
   __zpack_cache eval "_comps[${program}]=_${program}"
 
   if [[ -n $cmd ]]; then
-    __zpack_cache eval "$cmd 2> /dev/null >| ${ZPACK[completions_dir]}/_${program} &|"
+    completions_path="${ZPACK[completions_dir]}/_${program}"
+    __zpack_cache eval "[[ -f ${(q-)completions_path} && -n \${ZPACK[comp_cache_hit]} ]] || $cmd 2> /dev/null >| ${completions_path} &|"
   fi
 }
 

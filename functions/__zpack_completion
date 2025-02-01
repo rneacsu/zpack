@@ -25,6 +25,16 @@ function __zpack_completion_init {
         # This only defines the 'compgen' and 'complete' functions which in turn
         # use 'compdef', so no need to mock them.
         autoload -Uz bashcompinit && bashcompinit
+
+        setopt localoptions extendedglob
+        if [[ -f ${ZPACK[compdump_path]} && -n ${ZPACK[compdump_path]}(#q.Nmh-24) ]]; then
+            ZPACK[stats_compinit_status]="loaded from cache"
+            ZPACK[comp_cache_hit]=1
+        elif [[ -f ${ZPACK[compdump_path]} ]]; then
+            ZPACK[stats_compinit_status]="loaded from scratch (stale cache)"
+        else
+            ZPACK[stats_compinit_status]="loaded from scratch (missing cache)"
+        fi
     fi
 
     # Style completion
@@ -45,21 +55,13 @@ function __zpack_completion_apply() {
 
         # Load real completion
         ZPACK[stats_compinit_start]=$EPOCHREALTIME
-        setopt localoptions extendedglob
-        if [[ -f ${ZPACK[compdump_path]} && -n ${ZPACK[compdump_path]}(#q.Nmh-24) ]]; then
+        if [[ -n $ZPACK[comp_cache_hit] ]]; then
             autoload -Uz compinit && compinit -d ${ZPACK[compdump_path]} -C
             if [[ $? -ne 0 ]]; then
                 __zpack_err "Could not initialise completions from cache."
                 return 1
             fi
-            ZPACK[stats_compinit_status]="loaded from cache"
         else
-            if [[ -f ${ZPACK[compdump_path]} ]]; then
-                ZPACK[stats_compinit_status]="loaded from scratch (stale cache)"
-            else
-                ZPACK[stats_compinit_status]="loaded from scratch (missing cache)"
-            fi
-
             # Do not dump because we also have to apply completions from mocks
             autoload -Uz compinit && compinit -d ${ZPACK[compdump_path]} -D
             if [[ $? -ne 0 ]]; then
