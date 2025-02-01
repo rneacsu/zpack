@@ -241,7 +241,7 @@ function zpack-release() {
 
     # Add completions
     if [[ -n $complete ]]; then
-        zpack-complete $name -g $complete[2]
+        zpack-complete $name -g ${complete#--complete}
     fi
 }
 

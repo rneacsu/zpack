@@ -17,7 +17,8 @@ function zpack-complete() {
   [[ $+commands[$program] == 1 ]] || return 0
 
   if [[ -n $cmd ]]; then
-    cmd=$cmd[2]
+    cmd=${cmd#-g}
+    cmd=${cmd#--generate}
     if [[ -z $cmd ]]; then
       cmd="${program} completion zsh"
     fi
