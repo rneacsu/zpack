@@ -133,6 +133,25 @@ function __zpack_bundle_k9s() {
     zpack release derailed/k9s --complete $@
 }
 
+function __zpack_bundle_ripgrep() {
+    zpack release BurntSushi/ripgrep --complete 'rg --generate complete-zsh' --name 'rg' $@
+}
+
+function __zpack_bundle_fd() {
+    zpack release sharkdp/fd $@
+    zpack snippet https://github.com/sharkdp/fd/raw/refs/heads/master/contrib/completion/_fd
+}
+
+function __zpack_bundle_k3d() {
+    zpack release k3d-io/k3d --complete $@
+}
+
+function __zpack_bundle_uv() {
+    zpack release astral-sh/uv --filter '**/uv|uvx' $@
+    zpack complete uv --generate 'uv generate-shell-completion zsh'
+    zpack complete uvx --generate 'uvx --generate-shell-completion zsh'
+}
+
 {
     local fun
     typeset -ga __ZPACK_ALL_BUNDLES=()

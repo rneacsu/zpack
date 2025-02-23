@@ -75,6 +75,12 @@ function __zpack_release_filter_arch() {
     __zpack_release_filter_pattern $filter $@
 }
 
+function __zpack_release_filter_archives() {
+    local filter="*.(tar|zip|gz|tgz)"
+
+    __zpack_release_filter_pattern $filter $@
+}
+
 function __zpack_release_filter_pattern() {
     local asset found
     local filter=$1
@@ -95,11 +101,16 @@ function __zpack_release_filter_pattern() {
 function __zpack_release_install_pattern() {
     local found file
     local pattern=$1
+    local all=$2
 
     for file in ${~pattern}; do
-        zpack-bin --name $name ${file:A}
         found=1
-        break
+        if [[ -n $all ]]; then
+            zpack-bin ${file:A}
+        else
+            zpack-bin --name $name ${file:A}
+            break
+        fi
     done
 
     [[ -n $found ]]
@@ -108,7 +119,7 @@ function __zpack_release_install_pattern() {
 function __zpack_release_install() {
     pushd -q $dir
 
-    if ! { [[ -n $filter ]] && __zpack_release_install_pattern "${filter[2]}"  ||
+    if ! { [[ -n $filter ]] && __zpack_release_install_pattern "${filter[2]}" all  ||
         __zpack_release_install_pattern "**/${name}(*)" ||
         __zpack_release_install_pattern "**/${name}" ||
         __zpack_release_install_pattern "**/*${name}*(*)" ||
@@ -197,6 +208,7 @@ function zpack-release() {
         assets=$(__zpack_release_filter_junk ${(f)assets})
         assets=$(__zpack_release_filter_os ${(f)assets})
         assets=$(__zpack_release_filter_arch ${(f)assets})
+        assets=$(__zpack_release_filter_archives ${(f)assets})
         assets=$(__zpack_release_filter_pattern $pattern ${(f)assets})
         assets=(${(f)assets})
 
