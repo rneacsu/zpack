@@ -28,7 +28,7 @@ function __zpack_bundle_fzf() {
 
         [[ $+commands[bat] == 1 ]] && cat_cmd="bat -n --color=always"
         [[ $+commands[tree] == 1 ]] && tree_cmd="tree -L $tree_level"
-        [[ $+commands[exa] == 1 ]] && tree_cmd="exa --tree --icons -L $tree_level"
+        [[ $+commands[eza] == 1 ]] && tree_cmd="eza --tree --icons=always --color=always -L $tree_level"
 
         fzf_preview_cmd="{ [[ -f {} ]] && $cat_cmd {} } || { [[ -d {} ]] && $tree_cmd {} }"
         fzf_tab_preview_cmd=${fzf_preview_cmd//\{\}/\$realpath}
@@ -55,11 +55,6 @@ function __zpack_bundle_bat() {
     zpack release sharkdp/bat $@
     BAT_THEME="base16"
     __zpack_cache export BAT_THEME
-}
-
-function __zpack_bundle_exa() {
-    zpack release ogham/exa $@
-    zpack snippet https://github.com/ogham/exa/raw/master/completions/zsh/_exa
 }
 
 function __zpack_bundle_plow() {
