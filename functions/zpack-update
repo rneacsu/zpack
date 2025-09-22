@@ -18,6 +18,9 @@ function zpack-update() {
 
     if [[ $type == "all" || $type == "plugins" ]]; then
         local repo dir
+
+        setopt localoptions nullglob
+
         for repo in ${ZPACK[plugins_dir]}/**/.git(/F); do
             dir="${repo%/.git}"
 
