@@ -132,8 +132,7 @@ function __zpack_bundle_ripgrep() {
 }
 
 function __zpack_bundle_fd() {
-    zpack release sharkdp/fd $@
-    zpack snippet https://github.com/sharkdp/fd/raw/refs/heads/master/contrib/completion/_fd
+    zpack release sharkdp/fd --complete 'fd --gen-completions zsh' $@
 }
 
 function __zpack_bundle_k3d() {
