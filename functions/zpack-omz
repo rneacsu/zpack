@@ -1,14 +1,10 @@
 #!/usr/bin/env zsh
 
 function zpack-omz() {
-    local completion location repo branch before_load after_load
-    zparseopts -D -E -completion=completion \
-        -before-load:=before_load -after-load:=after_load \
-        || return 1
+    local location repo branch
 
     if [[ $# == 0 ]]; then
         __zpack_err "'omz' requires at least one parameter:"
-        __zpack_err "    zpack omz <lib or plugin path> [--completion]"
         return 1
     fi
 
@@ -31,7 +27,7 @@ function zpack-omz() {
         __zpack_cache fpath $ZSH_COMPLETIONS_DIR
     fi
 
-    zpack-load $repo@$branch::$location $completion $before_load $after_load
+    zpack-load $repo@$branch::$location
 }
 
 zpack-omz $@

@@ -23,28 +23,6 @@ function __zpack_dir_plugin() {
     print "${ZPACK[plugins_dir]}/$(__zpack_encode_url ${repo:h})/${repo:t}/$branch"
 }
 
-function __zpack_dir_release() {
-    local repo=$1
-
-    if [[ -z $repo ]]; then
-        __zpack_err "No repository given."
-        return 1
-    fi
-
-    print "${ZPACK[releases_dir]}/$(__zpack_encode_url ${repo:h})/${repo:t}"
-}
-
-function __zpack_dir_snippet() {
-    local url=$1
-
-    if [[ -z $url ]]; then
-        __zpack_err "No url given."
-        return 1
-    fi
-
-    print "${ZPACK[snippets_dir]}/$(__zpack_encode_url ${${url#https\:\/\/github.com\/}:h})"
-}
-
 function __zpack_dir() {
     __zpack_subcmd dir $@
 }

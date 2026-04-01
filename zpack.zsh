@@ -2,10 +2,7 @@
 typeset -gA ZPACK
 ZPACK[dir]="$0:A:h"
 ZPACK[plugins_dir]="${ZPACK[dir]}/plugins"
-ZPACK[releases_dir]="${ZPACK[dir]}/releases"
-ZPACK[snippets_dir]="${ZPACK[dir]}/snippets"
 ZPACK[functions_dir]="${ZPACK[dir]}/functions"
-ZPACK[bin_dir]="${ZPACK[dir]}/bin"
 ZPACK[cache_dir]="${ZPACK[dir]}/cache"
 ZPACK[cache_file]="${ZPACK[cache_dir]}/zpack"
 ZPACK[completions_dir]="${ZPACK[cache_dir]}/completions"

@@ -2,10 +2,6 @@
 
 function zpack-apply() {
     __zpack_cache var __ZPACK_PLUGINS
-    __zpack_cache var __ZPACK_SNIPPETS
-    __zpack_cache var __ZPACK_RELEASES
-    __zpack_cache var __ZPACK_BUNDLES
-    __zpack_cache var __ZPACK_BINARIES
     __zpack_cache stats_time cache_end
 
     ZPACK[stats_cache_compile_start]=$EPOCHREALTIME

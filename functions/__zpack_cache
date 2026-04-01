@@ -50,17 +50,6 @@ function __zpack_cache_source() {
     __zpack_cache_eval "ZERO=${(q-)location} source ${(q-)location}"
 }
 
-function __zpack_cache_run_hook() {
-    local name=$1
-    local cmd=${(P)name}
-
-    if [[ -n $cmd ]]; then
-        __zpack_cache_eval "pushd -q ${(q-)dir}"
-        __zpack_cache_eval "$cmd"
-        __zpack_cache_eval "popd -q"
-    fi
-}
-
 function __zpack_cache_stats_time() {
     __zpack_cache_eval "ZPACK[stats_$1]=\$EPOCHREALTIME"
 }

@@ -11,89 +11,19 @@ function _zpack_compile() {
         '*::file:_files'
 }
 
-function _zpack_release() {
-	_arguments \
-		'(-l --list)--complete[generate completions]::command' \
-		'(-p --pattern -l --list)'{-p,--pattern}'[glob pattern to match asset]:pattern' \
-		'(-f --filter -l --list)'{-f,--filter}'[glob pattern to filter binary file]:filter' \
-		'(-n --name -l --list)'{-n,--name}'[binary name]:name' \
-		'(-)'{-l,--list}'[list all availale releases and exit]' \
-        '1:repository'
-}
-
-function _zpack_snippet() {
-	_arguments \
-        '--completion[only add to fpath]' \
-		'--bin[add to path as binary]' \
-        '1:snippet url:_urls'
-}
-
 function _zpack_load() {
     _arguments \
-		'--completion[only add to fpath]' \
-		'--before-load[command to run before load]:command' \
-		'--after-load[command to run after load]:command' \
         '1:repository or local path'
 }
 
 function _zpack_omz() {
     _arguments \
-        '--completion[only add to fpath]' \
         '1:lib or plugin path'
-}
-
-function _zpack_bin() {
-    _arguments \
-        '(-n --name)'{-n,--name}'[binary name (only when location is a file)]:name' \
-        '1:repository or local path'
 }
 
 function _zpack_update() {
     _arguments \
         '1:scope:((all\:"update zpack and plugins" self\:"update zpack" plugins\:"update plugins"))'
-}
-
-function _zpack_bundle() {
-    local context state state_descr line
-    typeset -A opt_args
-    local ret=1
-
-    _arguments \
-        '1: :->bundle' \
-        '*::arg:->args' \
-    && ret=0
-
-    if [[ -z $__ZPACK_ALL_BUNDLES ]]; then
-        autoload -Uz zpack-bundle && zpack-bundle >/dev/null
-    fi
-
-    case $state in
-        bundle)
-            _describe -t bundles "zpack bundles" __ZPACK_ALL_BUNDLES && ret=0
-            ;;
-        args)
-            local bundle=$words[1]
-            case $bundle in
-                zoxide)
-                    _arguments \
-                        '--cmd[change the command used to call zoxide]:command' \
-                    && ret=0
-                    ;;
-                fzf)
-                    _arguments \
-                        '--preview[enable preview for files and directories]' \
-                        '--tab[use fzf for tab completion (using Aloxaf/fzf-tab)]' \
-                    && ret=0
-                    ;;
-                *)
-                    if [[ $__ZPACK_ALL_BUNDLES[(Ie)$bundle] -gt 0 ]]; then
-                        _message 'no more arguments' && ret=0
-                    fi
-                    ;;
-            esac
-    esac
-
-    return $ret
 }
 
 function _zpack_clone() {

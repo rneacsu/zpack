@@ -30,14 +30,6 @@ function zpack-update() {
             git -C $dir clean -df --quiet
             git -C $dir pull  --ff-only
         done
-
-        for version_file in ${ZPACK[releases_dir]}/**/.zpack_release_version(.); do
-            rm "$version_file"
-        done
-
-        for snippet in ${ZPACK[snippets_dir]}/**/*(.); do
-            rm "$snippet"
-        done
     fi
 
     zpack-reset

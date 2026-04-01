@@ -25,11 +25,7 @@ A simple Zsh manager for all your needs.
 * [Getting started](#getting-started)
 * [Commands](#commands)
   * [`zpack load`](#zpack-load)
-  * [`zpack snippet`](#zpack-snippet)
-  * [`zpack release`](#zpack-release)
-  * [`zpack bin`](#zpack-bin)
   * [`zpack omz`](#zpack-omz)
-  * [`zpack bundle`](#zpack-bundle)
   * [`zpack complete`](#zpack-complete)
   * [`zpack apply`](#zpack-apply)
   * [`zpack update`](#zpack-update)
@@ -46,9 +42,7 @@ This project was created mainly because I needed a ZSH plugin manager that satis
 
 * have the entire configuration in `.zshrc`
 * the configuration is easy to read and understand
-* can install binaries from GitHub Releases
 * can load [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) plugins and libraries
-* can load scripts from URLs
 * is simple to maintain and extend
 
 After testing a couple of existing managers I couldn't find one that satisfied all the requirements, was maintained and worked with the plugins I am using. Therefore, I decided to create my own. It was also a good opportunity to learn more about Zsh.
@@ -67,7 +61,7 @@ Add the following lines to `~/.zshrc`:
 source "${ZDOTDIR:-$HOME}/.zpack/zpack.zsh"
 ```
 
-Load plugins, releases, snippets and predefined bundles:
+Load plugins
 
 ```shell
 # ohmyzsh libraries, required by most plugins
@@ -83,36 +77,14 @@ zpack omz plugins/docker
 zpack omz plugins/docker-compose
 zpack omz plugins/kubectl
 
-# Download binary from GitHub Releases and add to path
-zpack release junegunn/fzf
-
-# Load script from url
-zpack snippet https://github.com/junegunn/fzf/raw/master/shell/key-bindings.zsh
-
-# Install binary and also generate completions
-zpack release dandavison/delta --complete 'delta --generate-completion zsh'
-
-# Add script from url as binary an make it available in path
-zpack snippet --bin https://github.com/kvaps/kubectl-node-shell/raw/master/kubectl-node_shell
-
 # Load regular plugins
 zpack load zsh-users/zsh-autosuggestions
 zpack load zsh-users/zsh-completions
 zpack load zsh-users/zsh-syntax-highlighting
 
-# Also execute script after plugin load
-zpack load zsh-users/zsh-history-substring-search --after-load '
-    bindkey "^[[A" history-substring-search-up
-    bindkey "^[[B" history-substring-search-down
-'
-
-# Or you can install all of the above zsh-users plugins using a predefined bundle
-# zpack bundle zsh-users
-
 # Load theme
-zpack load romkatv/powerlevel10k::powerlevel10k --after-load '
-    [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-'
+zpack load romkatv/powerlevel10k::powerlevel10k
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 ```
 
 At the end make sure you apply the configuration using the following:
@@ -152,41 +124,7 @@ It does the following:
 
 1. download the plugin if it's not already downloaded
 1. add the `functions` directory to `fpath` if it exists, otherwise the plugin's directory is added
-1. find and load the plugin's entry point using common patterns.
-1. add the `bin` directory to `PATH` if it exists
-
-The following flags can be used:
-
-* `--completion` - only add to `fpath` and do not load the plugin. Useful when you only want to load completions.
-* `--before-load` - a command to execute before the plugin is loaded
-* `--after-load` - a command to execute after the plugin is loaded
-
-### `zpack snippet`
-
-Loads a script from a URL. It takes one argument which is the URL of the script to load.
-
-The following flags can be used:
-
-* `--bin` - treat downloaded file as a binary and make available in `PATH`
-* `--completion` - only add to `fpath` and do not load the script
-
-### `zpack release`
-
-Downloads a binary from GitHub Releases and adds it to `PATH`. It takes one argument which is the repository in the format `<author>/<repo>` or `<author>/<repo>@<version>`. The following flags can be used:
-
-* `--complete` - generate completions for the binary. The argument is the command to run to generate completions. You can use the binary itself to generate completions. If no command is given, then `<binary> completion zsh` is used.
-* `-p, --pattern` - assets are automatically filtered by the current OS and platform and the first one is downloaded. Use this flag to specify a pattern to further filter the assets.
-* `-f, --filter` - when downloading an archive with multiple files the command tries to automatically find the correct binary. Use this flag to specify a filter to find the correct file to use.
-* `-n, --name` - specify the name of the binary to use. By default, the name is the same as the repository name, but it can be different in some cases (e.g. `flux` for `fluxcd/flux2`). Use this flag to specify the name of the final binary.
-* `-l, --list` - list all available assets for the repository. Useful for finding the correct asset to download.
-
-### `zpack bin`
-
-Loads binaries to `PATH`. Generally is usually used internally by the other commands, but can also be used to make certain scripts from repositories available in `PATH`. It takes one argument which is the repository in the same format as `zpack load`.
-
-The following flags are available:
-
-* `-n, --name` - specify the name of the final binary added to `PATH`.
+1. find and load the plugin's entry point using common patterns
 
 ### `zpack omz`
 
@@ -196,20 +134,6 @@ Loads Oh My Zsh plugins and libraries. It is a wrapper around `zpack load` which
 zpack omz plugins/<plugin>
 zpack omz lib/<library>.zsh
 ```
-
-The same flags as `zpack load` can be used.
-
-### `zpack bundle`
-
-Loads a predefined bundle of one or more plugins, along with their configuration. Used to set up popular configurations without cluttering the `.zshrc` file. It takes one argument (the name of the bundle) and zero or more flags, depending on the bundle. Some of the available bundles are:
-
-* `omz-lib` - load a predefined list of useful Oh My Zsh libraries
-* `zsh-users` - loads [`zsh-users/zsh-autosuggestions`](https://github.com/zsh-users/zsh-autosuggestions), [`zsh-users/zsh-completions`](https://github.com/zsh-users/zsh-completions), [`zsh-users/zsh-syntax-highlighting`](https://github.com/zsh-users/zsh-syntax-highlighting) and [`zsh-users/zsh-history-substring-search`](https://github.com/zsh-users/zsh-history-substring-search) (with up/down arrows key bindings)
-* `powerlevel10k` - loads [`romkatv/powerlevel10k`](https://github.com/romkatv/powerlevel10k) theme
-* `zoxide` - installs and loads [`ajeetdsouza/zoxide`](https://github.com/ajeetdsouza/zoxide) binary and completions. Use the `--cmd` flag to specify the command for running `zoxide`, defaults to `z`
-* `fzf` - installs [`junegunn/fzf`](https://github.com/junegunn/fzf) and configures `Ctrl+R`, `Ctrl+T` and `Alt+C` key bindings with files and directories previews. Set the `--tab` flag to also install the [`Aloxaf/fzf-tab`](https://github.com/Aloxaf/fzf-tab) plugin.
-
-To see all the available bundles, run `zpack bundle`.
 
 ### `zpack complete`
 
@@ -234,13 +158,13 @@ Applies all changes made by the previous commands. This should be the last `zpac
 
 ### `zpack update`
 
-Updates the manager and all plugins, snippets and releases to the latest version. It takes one optional argument which controls what to update:
+Updates the manager and all plugins to the latest version. It takes one optional argument which controls what to update:
 
 ```shell
 zpack update # updates everything
 zpack update all # same as above
 zpack update self # updates only the manager
-zpack update plugins # updates only the plugins, snippets and releases
+zpack update plugins # updates only the plugins
 ```
 
 ### `zpack reset`
@@ -249,7 +173,7 @@ Clears the cache entirely and restarts the shell. Usually this should not be nee
 
 ### `zpack prune`
 
-Completely delete everything and start from scratch. This also deletes any downloaded plugins, binaries etc and stars fresh. Useful when you have a lot of previously downloaded plugins that you no longer need.
+Completely delete everything and start from scratch. This also deletes any downloaded plugins and starts fresh. Useful when you have a lot of previously downloaded plugins that you no longer need.
 
 ### `zpack help`
 
@@ -257,7 +181,7 @@ Shows available commands.
 
 ### `zpack list`
 
-List all plugins, snippets, binaries and bundles that are currently loaded.
+List all plugins that are currently loaded.
 
 ### `zpack stats`
 

@@ -2,7 +2,7 @@
 
 function zpack-prune() {
     local dir
-    for dir in ${ZPACK[plugins_dir]} ${ZPACK[releases_dir]} ${ZPACK[snippets_dir]}; do
+    for dir in ${ZPACK[plugins_dir]}; do
         __zpack_out "Deleting '$dir'"
         rm -drf "$dir"
     done
