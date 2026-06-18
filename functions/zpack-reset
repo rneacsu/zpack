@@ -7,9 +7,6 @@ function zpack-reset() {
         rm -drf "$dir"
     done
 
-    # Clear OMZ completions dierctory
-    [[ -d $ZSH_COMPLETIONS_DIR ]] && rm -drf $ZSH_COMPLETIONS_DIR
-
     __zpack_out "Deleting compiled files"
     rm -f ${ZPACK[dir]}/functions/*.zwc(N)
     rm -f ${ZPACK[dir]}/*.zwc(N)

@@ -8,16 +8,6 @@ function __zpack_path_contains() {
 function __zpack_plugin_source() {
     local location=$1
 
-    if [[ -d "$dir/functions" ]]; then
-        __zpack_cache fpath "$dir/functions"
-    elif [[ $repo = *ohmyzsh* ]]; then
-        if [[ $repo_path != lib/* ]]; then
-            __zpack_cache fpath ${location:h}
-        fi
-    else
-        __zpack_cache fpath $dir
-    fi
-
     __ZPACK_PLUGINS+=( $plugin_id )
 
     __zpack_cache source $location $plugin_id
@@ -51,8 +41,6 @@ function zpack-load() {
 
     if [[ -z $repo ]]; then
         plugin_id=$dir
-    elif [[ $repo = *ohmyzsh* ]]; then
-        plugin_id="$repo/$repo_path"
     else
         plugin_id=$repo
     fi
@@ -75,7 +63,6 @@ function zpack-load() {
     elif [[ -f "${location}.zsh.plugin" ]]; then
         __zpack_plugin_source "${location}.zsh.plugin"
 
-    # Classic ohmyzsh plugins have foo.plugin.zsh
     elif __zpack_path_contains $location ".plugin.zsh" ; then
         __zpack_plugin_source $location/*\.plugin\.zsh([1])
 

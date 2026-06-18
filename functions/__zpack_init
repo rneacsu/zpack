@@ -79,18 +79,12 @@ function __zpack_init() {
         __zpack_cache txt "#!/usr/bin/env zsh"
         __zpack_cache stats_time cache_start
         __zpack_cache fpath ${ZPACK[completions_dir]}
-
-        # Zsh Plugin Standard
-        typeset -g PMSPEC=0fbis
-        __zpack_cache var PMSPEC
-        __zpack_cache eval "typeset -ga zsh_loaded_plugins"
     fi
 
     # Define commands and their description
     typeset -gA __ZPACK_CMDS
     __ZPACK_CMDS=(
         "load"     "clone and load plugin"
-        "omz"      "load ohmyzsh plugins or libraries"
         "complete" "register completions for programs"
         "apply"    "apply setup to current shell"
         "update"   "update all repositories, reset and restart shell"

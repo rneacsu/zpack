@@ -16,11 +16,6 @@ function _zpack_load() {
         '1:repository or local path'
 }
 
-function _zpack_omz() {
-    _arguments \
-        '1:lib or plugin path'
-}
-
 function _zpack_update() {
     _arguments \
         '1:scope:((all\:"update zpack and plugins" self\:"update zpack" plugins\:"update plugins"))'

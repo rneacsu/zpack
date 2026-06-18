@@ -25,7 +25,6 @@ A simple Zsh manager for all your needs.
 * [Getting started](#getting-started)
 * [Commands](#commands)
   * [`zpack load`](#zpack-load)
-  * [`zpack omz`](#zpack-omz)
   * [`zpack complete`](#zpack-complete)
   * [`zpack apply`](#zpack-apply)
   * [`zpack update`](#zpack-update)
@@ -42,7 +41,6 @@ This project was created mainly because I needed a ZSH plugin manager that satis
 
 * have the entire configuration in `.zshrc`
 * the configuration is easy to read and understand
-* can load [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) plugins and libraries
 * is simple to maintain and extend
 
 After testing a couple of existing managers I couldn't find one that satisfied all the requirements, was maintained and worked with the plugins I am using. Therefore, I decided to create my own. It was also a good opportunity to learn more about Zsh.
@@ -64,20 +62,7 @@ source "${ZDOTDIR:-$HOME}/.zpack/zpack.zsh"
 Load plugins
 
 ```shell
-# ohmyzsh libraries, required by most plugins
-zpack omz lib/history.zsh
-zpack omz lib/directories.zsh
-zpack omz lib/completion.zsh
-zpack omz lib/theme-and-appearance.zsh
-
-# ohmyzsh plugins
-zpack omz plugins/git
-zpack omz plugins/sudo
-zpack omz plugins/docker
-zpack omz plugins/docker-compose
-zpack omz plugins/kubectl
-
-# Load regular plugins
+# Load plugins
 zpack load zsh-users/zsh-autosuggestions
 zpack load zsh-users/zsh-completions
 zpack load zsh-users/zsh-syntax-highlighting
@@ -126,14 +111,6 @@ It does the following:
 1. add the `functions` directory to `fpath` if it exists, otherwise the plugin's directory is added
 1. find and load the plugin's entry point using common patterns
 
-### `zpack omz`
-
-Loads Oh My Zsh plugins and libraries. It is a wrapper around `zpack load` which also creates the necessary directories and environment variables for Oh My Zsh plugins to work. The accepted formats are:
-
-```shell
-zpack omz plugins/<plugin>
-zpack omz lib/<library>.zsh
-```
 
 ### `zpack complete`
 

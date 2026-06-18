@@ -36,13 +36,6 @@ function __zpack_completion_init {
             ZPACK[stats_compinit_status]="loaded from scratch (missing cache)"
         fi
     fi
-
-    # Style completion
-    zstyle ':completion:*:corrections' format '%F{yellow}!- %d (errors: %e) -!%f'
-    zstyle ':completion:*:descriptions' format '%F{blue}-- %d --%f'
-    zstyle ':completion:*:messages' format '%F{purple}-- %d --%f'
-    zstyle ':completion:*:warnings' format '%F{red}-- no matches found --%f'
-    zstyle ':completion:*' group-name ''
 }
 
 function __zpack_completion_apply() {
